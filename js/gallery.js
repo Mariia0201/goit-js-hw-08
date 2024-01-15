@@ -64,10 +64,20 @@ const images = [
   },
 ];
 
-const container = document.querySelector('.gallery');
-container.innerHTML = createMarkup(images);
-
-container.addEventListener('click', handleImagesClick);
+function createMarkup(arr) {
+    return arr.map(({ preview, original, description }) => `
+        <li class="gallery-item">
+            <a class="gallery-link" href="${original}">
+                <img
+                    class="gallery-image"
+                    src="${preview}"
+                    data-source="${original}"
+                    alt="${description}"
+                />
+            </a>
+        </li>
+    `).join('');
+}
 
 function handleImagesClick(event) {
     event.preventDefault();
@@ -75,22 +85,20 @@ function handleImagesClick(event) {
     if (event.target === event.currentTarget) {
         return;
     }
-    
+
     const liEl = event.target.closest('.gallery-item');
     const original = liEl.querySelector('.gallery-image').dataset.source;
     const description = liEl.querySelector('.gallery-image').alt;
 
     const instance = basicLightbox.create(`
-          <img class = "modal-img"
+        <img class="modal-img"
             src="${original}"
             data-source="${original}"
             alt="${description}"
-          />
+        />
     `);
 
-
-  instance.show();  
-  
+    instance.show();
 
     function handleModalClose() {
         instance.close();
@@ -107,21 +115,9 @@ function handleImagesClick(event) {
     instance.element().addEventListener('click', handleModalClose);
 }
 
+// Опціонально можна перенести код ініціалізації basicLightbox в окрему функцію, але це залежить від ваших потреб.
 
-function createMarkup(arr) {
+const container = document.querySelector('.gallery');
+container.innerHTML = createMarkup(images);
 
-
-    return arr.map(({ preview, original, description }) => `
-    <li class="gallery-item">
-  <a class="gallery-link" href="${original}">
-    <img
-      class="gallery-image"
-      src="${preview}"
-      data-source="${original}"
-      alt="${description}"
-    />
-  </a>
-</li>
-    `
-    ).join('')
-}
+container.addEventListener('click', handleImagesClick);
