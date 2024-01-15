@@ -81,26 +81,30 @@ function handleImagesClick(event) {
     const description = liEl.querySelector('.gallery-image').alt;
 
     const instance = basicLightbox.create(`
-      <li class="modal">
-        <a href="${original}">
           <img class = "modal-img"
             src="${original}"
             data-source="${original}"
             alt="${description}"
           />
-        </a>
-      </li>
     `);
 
 
-    instance.show();  
+  instance.show();  
+  
 
-    document.addEventListener('keydown', (event) => {
+    function handleModalClose() {
+        instance.close();
+        document.removeEventListener('keydown', handleKeyDown);
+    }
+
+    function handleKeyDown(event) {
         if (event.key === 'Escape') {
-            instance.close();
+            handleModalClose();
         }
     }
-    )
+
+    document.addEventListener('keydown', handleKeyDown);
+    instance.element().addEventListener('click', handleModalClose);
 }
 
 

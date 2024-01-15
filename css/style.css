@@ -28,6 +28,14 @@
     background: url(<path-to-image>), lightgray -76px -0.297px / 125.278% 100.198% no-repeat;
 
 }
+.gallery-item:hover .gallery-image {
+    width: 376px;
+    height: 208px;
+}
+
+.gallery-item:hover .gallery-image {
+    background: url(<path-to-image>) lightgray 0px -30px / 100% 180% no-repeat;
+}
 
 .gallery-link {
     width: 0;
