@@ -96,26 +96,23 @@ function handleImagesClick(event) {
             data-source="${original}"
             alt="${description}"
         />
-    `);
+    `, {
+        onShow: () => {
+            document.addEventListener('keydown', handleKeyDown);
+        },
+        onClose: () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        }
+    });
 
     instance.show();
 
-    function handleModalClose() {
-        instance.close();
-        document.removeEventListener('keydown', handleKeyDown);
-    }
-
     function handleKeyDown(event) {
         if (event.key === 'Escape') {
-            handleModalClose();
+            instance.close();
         }
     }
-
-    document.addEventListener('keydown', handleKeyDown);
-    instance.element().addEventListener('click', handleModalClose);
 }
-
-// Опціонально можна перенести код ініціалізації basicLightbox в окрему функцію, але це залежить від ваших потреб.
 
 const container = document.querySelector('.gallery');
 container.innerHTML = createMarkup(images);
